@@ -22,9 +22,10 @@ function defaultRegistry(): OccUser[] {
   return createInitialUsers();
 }
 
-function applyRegistry(next: OccUser[]): void {
+function applyRegistry(next: OccUser[]): OccUser[] {
   registry = next;
   storeInitialized = true;
+  return next;
 }
 
 function syncRegistryFromStorage(): void {
@@ -40,7 +41,7 @@ function syncRegistryFromStorage(): void {
 
 function ensureRegistry(): OccUser[] {
   if (!storeInitialized || registry === null) {
-    applyRegistry(defaultRegistry());
+    return applyRegistry(defaultRegistry());
   }
   return registry;
 }
@@ -95,15 +96,15 @@ function commitRegistry(next: OccUser[], source: UserMutationSource): OccUser[] 
 
   if (next === registry) {
     emitChange();
-    return registry;
+    return next;
   }
 
   applyRegistry(next);
   if (persistenceHydrated) {
-    saveUsersRegistryToStorage(registry);
+    saveUsersRegistryToStorage(next);
   }
   emitChange();
-  return registry;
+  return next;
 }
 
 export function saveUserInStore(user: OccUser, mode: "create" | "edit"): void {

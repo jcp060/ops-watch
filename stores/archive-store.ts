@@ -34,9 +34,10 @@ function defaultArchives(): ArchivedFlight[] {
   return createInitialArchivedFlights();
 }
 
-function applyArchives(next: ArchivedFlight[]): void {
+function applyArchives(next: ArchivedFlight[]): ArchivedFlight[] {
   archives = next;
   storeInitialized = true;
+  return next;
 }
 
 function syncArchivesFromStorage(): void {
@@ -52,7 +53,7 @@ function syncArchivesFromStorage(): void {
 
 function ensureArchives(): ArchivedFlight[] {
   if (!storeInitialized || archives === null) {
-    applyArchives(defaultArchives());
+    return applyArchives(defaultArchives());
   }
   return archives;
 }
@@ -98,13 +99,12 @@ export function commitArchive(next: ArchivedFlight[]): ArchivedFlight[] {
   if (next === current) {
     return current;
   }
-  archives = next;
-  storeInitialized = true;
+  applyArchives(next);
   if (persistenceHydrated) {
-    saveArchiveToStorage(archives);
+    saveArchiveToStorage(next);
   }
   emitChange();
-  return archives;
+  return next;
 }
 
 export function archiveLandedFlight(
