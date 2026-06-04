@@ -21,9 +21,9 @@ type NavItem = {
 
 const OPERATIONAL_TABS: NavItem[] = [
   {
-    href: "/",
+    href: "/dashboard",
     label: "Dashboard",
-    match: (path) => path === "/",
+    match: (path) => path === "/dashboard",
   },
   {
     href: "/reports",
@@ -43,7 +43,7 @@ export function DashboardTabs({
     canAccessCommandMap(session.currentUser.role);
 
   const counts: Record<string, number | undefined> = {
-    "/": activeCount,
+    "/dashboard": activeCount,
   };
 
   const isSettingsActive = pathname === "/settings";

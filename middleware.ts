@@ -29,7 +29,7 @@ export function middleware(request: NextRequest) {
       );
     }
 
-    const redirect = new URL("/", request.url);
+    const redirect = new URL("/dashboard", request.url);
     redirect.searchParams.set("access", "denied");
     return NextResponse.redirect(redirect);
   }
