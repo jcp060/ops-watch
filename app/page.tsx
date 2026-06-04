@@ -1,13 +1,5 @@
-import { OccAppShell } from "@/components/OccAppShell";
-import { DashboardStatusCards, DashboardView } from "@/components/DashboardView";
+import { redirect } from "next/navigation";
 
 export default function HomePage() {
-  return (
-    <OccAppShell
-      showStatusCards
-      statusCards={<DashboardStatusCards />}
-    >
-      <DashboardView />
-    </OccAppShell>
-  );
+  redirect("/login");
 }
