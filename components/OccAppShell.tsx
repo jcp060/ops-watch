@@ -12,6 +12,7 @@ type OccAppShellProps = {
   children: ReactNode;
   showStatusCards?: boolean;
   statusCards?: ReactNode;
+  headerActions?: ReactNode;
   /** Lock layout to viewport height (Command Map — no page scroll). */
   fillViewport?: boolean;
 };
@@ -20,6 +21,7 @@ export function OccAppShell({
   children,
   showStatusCards = false,
   statusCards,
+  headerActions,
   fillViewport = false,
 }: OccAppShellProps) {
   const pathname = usePathname();
@@ -58,7 +60,10 @@ export function OccAppShell({
               ) : null}
             </div>
             <div className="flex flex-col items-end gap-2">
-              <SessionRoleBadge />
+              <div className="flex flex-wrap items-center justify-end gap-2">
+                <SessionRoleBadge />
+                {headerActions}
+              </div>
               <div className="flex items-center gap-2 text-xs text-slate-500">
                 <span className="inline-flex h-2 w-2 animate-pulse rounded-full bg-cyan-400" />
                 Live · <LiveClock />
